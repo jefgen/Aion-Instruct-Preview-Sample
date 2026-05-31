@@ -1,0 +1,44 @@
+name: Repo / OSS-readiness issue
+description: Something about THIS repository (not the Aion Instruct Preview SDK or AionInstructPreview.Chat itself) — a typo, broken link, doc gap, or other repo/docs problem.
+title: "[repo] "
+labels: ["repo-issue"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for issues with the repo itself — docs, links, packaging, or other housekeeping. For bugs in AionInstructPreview.Chat or the Aion Instruct Preview SDK, use the **Bug report** template instead.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of issue?
+      options:
+        - Typo / wording / grammar
+        - Broken link or anchor
+        - Outdated content
+        - Missing content
+        - Security / secrets concern
+        - License / attribution concern
+        - OSS-readiness blocker (something we shouldn't ship publicly as-is)
+        - Packaging / repo housekeeping
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong?
+      description: Be specific. File path + line number if you can; URL if it's a broken link.
+      placeholder: |
+        README.md line 47 -- "QDQ ONNX models" should probably be "QDQ-quantized ONNX models" for first-time readers.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix?
+      description: Optional. If you have a proposed wording or change, drop it here.
+    validations:
+      required: false

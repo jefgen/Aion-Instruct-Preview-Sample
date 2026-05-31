@@ -1,0 +1,37 @@
+<!--
+  AionInstructPreview.Chat.Wpf: unpackaged WPF counterpart to the WinUI sample.
+
+  This sample takes the framework package dependency at runtime through
+  FrameworkDependency.cs and uses CsWinRT to activate AionInstructPreview.Text.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
+    <RootNamespace>AionInstructPreview.Chat.Wpf</RootNamespace>
+    <AssemblyName>AionInstructPreview.Chat.Wpf</AssemblyName>
+
+    <Platforms>ARM64</Platforms>
+    <!-- Default unqualified builds to the machine's native architecture. -->
+    <Platform Condition="'$(Platform)' == '' Or '$(Platform)' == 'AnyCPU'">$([MSBuild]::ValueOrDefault('$(PROCESSOR_ARCHITEW6432)', '$(PROCESSOR_ARCHITECTURE)'))</Platform>
+    <RuntimeIdentifiers>win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <!-- CsWinRT-generated interop is unsafe. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Provides the WinRT projection used by the unpackaged sample. -->
+    <PackageReference Include="AionInstructPreview.Text.Framework" Version="1.0.*" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.5" />
+  </ItemGroup>
+
+</Project>

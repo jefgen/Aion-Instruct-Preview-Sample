@@ -1,0 +1,34 @@
+<!--
+  AionInstructPreview.Chat.Console: unpackaged console counterpart to the WinUI sample.
+
+  The app streams the model's reply to stdout and takes the framework package
+  dependency at runtime through FrameworkDependency.cs.
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
+    <RootNamespace>AionInstructPreview.Chat.ConsoleApp</RootNamespace>
+    <AssemblyName>AionInstructPreview.Chat.Console</AssemblyName>
+
+    <Platforms>ARM64</Platforms>
+    <!-- Default unqualified builds to the machine's native architecture. -->
+    <Platform Condition="'$(Platform)' == '' Or '$(Platform)' == 'AnyCPU'">$([MSBuild]::ValueOrDefault('$(PROCESSOR_ARCHITEW6432)', '$(PROCESSOR_ARCHITECTURE)'))</Platform>
+    <RuntimeIdentifiers>win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
+
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AionInstructPreview.Text.Framework" Version="1.0.*" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.5" />
+  </ItemGroup>
+
+</Project>

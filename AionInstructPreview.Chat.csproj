@@ -1,0 +1,116 @@
+<!--
+  AionInstructPreview.Chat — WinUI 3 desktop chat sample for the Aion Instruct Preview language model.
+
+  This is the consumer-side counterpart to the Aion Instruct Preview SDK. It mirrors how a
+  third-party developer would integrate Aion Instruct Preview in their own app:
+
+    1. Reference AionInstructPreview.Text.Framework via NuGet — provides the WinRT
+       projection (winmd → CsWinRT-generated C# types) at build time.
+    2. Declare a runtime PackageDependency on Aion Instruct Preview.LanguageModel in
+       Package.appxmanifest — installed separately (Store, sideload MSIX,
+       or winget). At launch, Windows resolves the runtimeclasses against
+       the dependency package's binaries.
+
+  Build prerequisites:
+    - The .NET 9 SDK. All other build-time dependencies (Windows App SDK,
+      SDK build tools, CsWinRT, Windows metadata, MSIX loose-layout tooling)
+      come from NuGet — no Visual Studio or registry-installed Windows SDK
+      is required. `dotnet run` builds, registers the loose layout as a
+      development package, and launches it (Developer Mode must be enabled).
+    - The Aion Instruct Preview SDK NuGet package (AionInstructPreview.Text.Framework.<version>.nupkg)
+      must be available to NuGet restore. For pre-public bootstrap, drop the
+      .nupkg from the SDK build pipeline into ./nuget-local/ and the feed
+      in nuget.config will pick it up.
+    - For run-time, the Aion Instruct Preview SDK MSIX must be installed on the target
+      machine (Add-AppxPackage / winget install / Store).
+-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.22621.0</TargetPlatformMinVersion>
+    <SupportedOSPlatformVersion>10.0.22621.0</SupportedOSPlatformVersion>
+    <RootNamespace>AionInstructPreview.Chat</RootNamespace>
+    <AssemblyName>AionInstructPreview.Chat</AssemblyName>
+
+    <!-- Keep sibling sample projects out of this root project's default item globs. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);unpackaged-wpf\**;unpackaged-console\**</DefaultItemExcludes>
+    <Platforms>ARM64</Platforms>
+    <!-- Default unqualified builds to the machine's native architecture for MSIX packaging. -->
+    <Platform Condition="'$(Platform)' == '' Or '$(Platform)' == 'AnyCPU'">$([MSBuild]::ValueOrDefault('$(PROCESSOR_ARCHITEW6432)', '$(PROCESSOR_ARCHITECTURE)'))</Platform>
+    <RuntimeIdentifiers>win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
+
+    <!-- WinUI 3 packaged app with MSIX identity. -->
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <!-- Declare the MSIX packaging model for Visual Studio and dotnet run tooling. -->
+    <WindowsPackageType>MSIX</WindowsPackageType>
+
+    <!-- Use the NuGet-delivered Windows metadata pack for CsWinRT projection generation. -->
+    <WindowsSdkPackageVersion>10.0.26100.57</WindowsSdkPackageVersion>
+    <CsWinRTWindowsMetadata>$(NuGetPackageRoot)microsoft.windows.sdk.net.ref\$(WindowsSdkPackageVersion)\winmd</CsWinRTWindowsMetadata>
+
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <WarningLevel>4</WarningLevel>
+
+    <!-- Use the custom Main() in App.xaml.cs so the app can enforce single-instancing before XAML startup. -->
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- SDK reference: provides the WinRT projection and injects the framework PackageDependency. -->
+    <PackageReference Include="AionInstructPreview.Text.Framework" Version="1.0.*" />
+
+    <!-- WinUI 3 / Windows App SDK. -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.1.5" />
+    <!--
+      Enables `dotnet run` to register the loose build-output layout as a
+      development package (with package identity) and launch it, without
+      Visual Studio or a separate Add-AppxPackage step. Build-only, not a
+      runtime dependency (PrivateAssets=all keeps it out of the package graph).
+    -->
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.3.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\StoreLogo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!--
+    Sync Package.appxmanifest's <Identity ProcessorArchitecture> to the
+    current build's $(Platform). The source manifest holds "arm64" already;
+    this keeps it correct if $(Platform) is overridden. Runs before AppX
+    packaging picks up the manifest.
+  -->
+  <Target Name="AionInstructChatSyncManifestArch" BeforeTargets="_GenerateCurrentProjectAppxManifest;_GenerateAppxManifest;GenerateAppxManifest" Condition="'$(Platform)' == 'ARM64'">
+    <PropertyGroup>
+      <_AionInstructChatManifestArch>arm64</_AionInstructChatManifestArch>
+    </PropertyGroup>
+    <XmlPoke
+      XmlInputPath="Package.appxmanifest"
+      Query="/p:Package/p:Identity/@ProcessorArchitecture"
+      Value="$(_AionInstructChatManifestArch)"
+      Namespaces="&lt;Namespace Prefix='p' Uri='http://schemas.microsoft.com/appx/manifest/foundation/windows10' /&gt;" />
+  </Target>
+
+</Project>

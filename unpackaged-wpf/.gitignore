@@ -1,0 +1,5 @@
+bin/
+obj/
+
+# QNN drops _qnn.log in the working dir at runtime; ignore log artifacts.
+*.log

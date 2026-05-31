@@ -1,0 +1,110 @@
+name: Bug report
+description: Something broke trying to install, build, or run AionInstructPreview.Chat.
+title: "[bug] "
+labels: ["bug", "bug-bash"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing! For most install/build/launch issues, the single most useful thing you can paste is the output of `scripts\Diagnose-AionInstructPreview.ps1`. It captures hardware, AppX packages, EP packages, model files, the per-user cache state, and the SDK's own EP-selection log line. Run it before opening the issue if you can:
+
+        ```powershell
+        cd <repo>
+        .\scripts\Diagnose-AionInstructPreview.ps1 | Tee-Object diag.txt
+        Get-Content diag.txt | Set-Clipboard
+        ```
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: One or two sentences. What did you try, what went wrong?
+      placeholder: e.g. Bootstrap.ps1 fails at the framework MSIX install step with HRESULT 0x80073CFB. I'm on a Snapdragon Surface.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Exact command sequence or click path. If a chat prompt triggered it, paste the prompt.
+      placeholder: |
+        1. .\Bootstrap.ps1
+        2. App launched, sent prompt "..."
+        3. ...
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+      description: What did you expect? What actually happened?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: install_path
+    attributes:
+      label: How did you install?
+      options:
+        - Bootstrap.ps1 (quickstart)
+        - Manual (README "Manual install" section)
+        - Not sure / install was already done
+    validations:
+      required: true
+
+  - type: dropdown
+    id: launch_state
+    attributes:
+      label: First launch or subsequent?
+      description: First launch hits the ~3-5 minute NPU compile. Subsequent launches should be near-instant.
+      options:
+        - First launch on this device (cold cache)
+        - Subsequent launch (warm cache)
+        - Not applicable (issue happened before launch)
+    validations:
+      required: true
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        Paste the output of:
+        ```powershell
+        @{
+          AionInstructPreview_Chat = (Get-AppxPackage AionInstructPreviewChat).Version
+          Framework   = (Get-AppxPackage Microsoft.AionInstructPreview.Framework.1.0).Version
+          OS_Build    = [Environment]::OSVersion.Version
+          PS_Edition  = $PSVersionTable.PSVersion.ToString() + ' ' + $PSVersionTable.PSEdition
+          Arch        = $env:PROCESSOR_ARCHITECTURE
+        } | Format-List
+        ```
+      render: shell
+      placeholder: |
+        AionInstructPreview_Chat : 1.0.0.0
+        Framework   : 0.1.1.1
+        OS_Build    : 10.0.26100.0
+        ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: diagnose
+    attributes:
+      label: Diagnose-AionInstructPreview.ps1 output
+      description: Paste the full output of `.\scripts\Diagnose-AionInstructPreview.ps1` here. If the script itself failed, paste whatever it printed before exiting.
+      render: shell
+      placeholder: AionInstructPreview.Chat first-launch diagnostic ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Screenshots, logs from DebugView, related bugs, hypotheses, etc.
+    validations:
+      required: false

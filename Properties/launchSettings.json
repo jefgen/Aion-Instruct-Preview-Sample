@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AionInstructPreview.Chat": {
+      "commandName": "Project"
+    },
+    "AionInstructPreview.Chat (MSIX)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

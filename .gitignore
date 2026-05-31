@@ -1,0 +1,61 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+ARM64/
+x64/
+x86/
+
+# Generated XAML / Xbf
+Generated Files/
+
+# MSBuild
+*.user
+*.suo
+*.userprefs
+*.lastbuildstate
+*.tlog
+.vs/
+
+# NuGet
+packages/
+nuget-local/*.nupkg
+nuget-local/*.snupkg
+!nuget-local/.gitkeep
+
+# MSIX / AppX
+AppPackages/
+*.appx
+*.appxbundle
+*.appxsym
+*.appxupload
+*.msix
+*.msixbundle
+*.msixupload
+
+# Code-signing material — regenerate locally via Setup.ps1.
+# NEVER commit private keys.
+*.pfx
+*.cer
+*.snk
+
+# PDBs
+*.pdb
+*.idb
+*.ipdb
+*.iobj
+
+# Editor / IDE noise
+.vscode/
+*.swp
+*~
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Runtime logs (QNN drops _qnn.log next to the exe on NPU compile, etc.)
+*.log

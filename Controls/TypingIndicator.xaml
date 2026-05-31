@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="AionInstructPreview.Chat.Controls.TypingIndicator"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel x:Name="DotRow" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center" Height="20">
+        <Ellipse x:Name="Dot1" Width="7" Height="7" Fill="{ThemeResource TextFillColorSecondaryBrush}" Opacity="0.3" />
+        <Ellipse x:Name="Dot2" Width="7" Height="7" Fill="{ThemeResource TextFillColorSecondaryBrush}" Opacity="0.3" />
+        <Ellipse x:Name="Dot3" Width="7" Height="7" Fill="{ThemeResource TextFillColorSecondaryBrush}" Opacity="0.3" />
+    </StackPanel>
+</UserControl>
