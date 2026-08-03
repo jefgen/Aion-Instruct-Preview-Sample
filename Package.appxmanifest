@@ -26,9 +26,8 @@
       but de-dupes by Name, so it leaves these as-is. WindowsAppRuntime 2 is a
       WinUI 3 / Windows App SDK dependency and is not injected by the SDK.
     -->
-    <PackageDependency Name="Microsoft.AionInstructPreview.Framework.1.0" MinVersion="1.0.0.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+    <PackageDependency Name="Microsoft.AionInstructPreview.Framework.1.0" MinVersion="1.0.0.1" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
     <PackageDependency Name="Microsoft.WindowsAppRuntime.2" MinVersion="2.0.1.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
-    <!-- WindowsAppRuntime 1.8 provides the WinML stack the on-device model runs on. -->
     <PackageDependency Name="Microsoft.WindowsAppRuntime.1.8" MinVersion="8000.836.2153.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
   </Dependencies>
   <Resources>
@@ -36,8 +35,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
-      <uap:VisualElements DisplayName="Aion Instruct Preview Chat" Description="Desktop chat sample for the Aion Instruct Preview language model" BackgroundColor="transparent" Square150x150Logo="Assets\StoreLogo.png" Square44x44Logo="Assets\StoreLogo.png">
-      </uap:VisualElements>
+      <uap:VisualElements DisplayName="Aion Instruct Preview Chat" Description="Desktop chat sample for the Aion Instruct Preview language model" BackgroundColor="transparent" Square150x150Logo="Assets\StoreLogo.png" Square44x44Logo="Assets\StoreLogo.png"></uap:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
