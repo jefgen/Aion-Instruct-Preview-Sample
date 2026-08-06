@@ -11,10 +11,16 @@ download or prepare it when needed, and register it for the current process.
 - Windows App Runtime 1.8 version `8000.859.21.0` or newer
 - Network access when QNN components need to be downloaded or updated
 
-The project pins `Microsoft.Windows.AI.MachineLearning` 1.8.2214 for its managed
-projection. It suppresses that NuGet's private native WinML copy and explicitly
-loads the installed Windows App Runtime 1.8 package, matching the prototype's
-framework-dependent behavior without mixing incompatible component packages.
+The project uses the public `Microsoft.WindowsAppSDK.ML` 1.8.2197 package,
+which contains the managed Windows ML projection and runtime metadata, together
+with its matching `Microsoft.WindowsAppSDK.Runtime` 1.8.260508005 component
+set. The utility explicitly loads the installed Windows App Runtime 1.8 package
+before activating the Windows ML catalog; the Windows App SDK automatic
+bootstrap initializer is disabled.
+
+The project includes the NuGet.org v2 endpoint as a project-local fallback
+because these exact 1.8 packages are downloadable but are not currently visible
+through NuGet.org's v3 registration index.
 
 ## Build
 

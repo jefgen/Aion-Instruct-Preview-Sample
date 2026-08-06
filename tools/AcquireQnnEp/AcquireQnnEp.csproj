@@ -16,6 +16,10 @@
 
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+    <WindowsAppSdkBootstrapInitialize>false</WindowsAppSdkBootstrapInitialize>
+
+    <!-- The exact 1.8 packages are downloadable but are not yet visible in NuGet's v3 registration index. -->
+    <RestoreAdditionalProjectSources>$(RestoreAdditionalProjectSources);https://www.nuget.org/api/v2/</RestoreAdditionalProjectSources>
 
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -23,25 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.AI.MachineLearning" Version="1.8.2214" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.ML" Version="1.8.2197" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="1.8.260508005" />
   </ItemGroup>
-
-  <!--
-    The NuGet supplies the managed projection at build/run time. WinML itself
-    must come from the installed WAR 1.8 package added by
-    WindowsAppRuntimeDependency, not from a private native DLL beside the exe.
-  -->
-  <Target Name="SuppressPrivateWindowsMLNativeCopy"
-          AfterTargets="ResolveLockFileCopyLocalFiles"
-          BeforeTargets="_CopyFilesMarkedCopyLocal">
-    <ItemGroup>
-      <NativeCopyLocalItems
-        Remove="@(NativeCopyLocalItems)"
-        Condition="'%(NativeCopyLocalItems.NuGetPackageId)' == 'Microsoft.Windows.AI.MachineLearning'" />
-      <ReferenceCopyLocalPaths
-        Remove="@(ReferenceCopyLocalPaths)"
-        Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' == 'Microsoft.Windows.AI.MachineLearning' and '%(ReferenceCopyLocalPaths.AssetType)' == 'native'" />
-    </ItemGroup>
-  </Target>
 
 </Project>
