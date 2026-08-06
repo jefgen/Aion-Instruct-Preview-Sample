@@ -1,0 +1,49 @@
+# AcquireQnnEp
+
+`AcquireQnnEp` is an unpackaged ARM64 C# console utility that uses the Windows
+App SDK 1.8 Windows ML catalog to locate the Qualcomm QNN execution provider,
+download or prepare it when needed, and register it for the current process.
+
+## Prerequisites
+
+- Windows 11 on an ARM64 Snapdragon device
+- .NET 9 SDK
+- Windows App Runtime 1.8 version `8000.859.21.0` or newer
+- Network access when QNN components need to be downloaded or updated
+
+The project pins `Microsoft.Windows.AI.MachineLearning` 1.8.2214 for its managed
+projection. It suppresses that NuGet's private native WinML copy and explicitly
+loads the installed Windows App Runtime 1.8 package, matching the prototype's
+framework-dependent behavior without mixing incompatible component packages.
+
+## Build
+
+From the repository root:
+
+```powershell
+dotnet build .\tools\AcquireQnnEp\AcquireQnnEp.csproj -c Release -p:Platform=ARM64
+```
+
+## Run
+
+```powershell
+dotnet run --project .\tools\AcquireQnnEp\AcquireQnnEp.csproj -c Release -p:Platform=ARM64
+```
+
+Acquisition is the default behavior. `EnsureReadyAsync()` is safe to call when
+QNN is already ready, so repeated runs do not require a separate readiness
+switch.
+
+Use `--help`, `-h`, or `/?` to print usage without loading the Windows ML
+catalog.
+
+## Exit codes
+
+| Code | Meaning |
+| ---: | --- |
+| 0 | QNN is ready and registered for the process |
+| 1 | Invalid command-line arguments |
+| 2 | Windows App Runtime or catalog operation failed |
+| 3 | QNN was not found |
+| 4 | `EnsureReadyAsync()` failed |
+| 5 | `TryRegister()` failed |
