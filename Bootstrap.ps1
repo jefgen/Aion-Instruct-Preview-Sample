@@ -41,7 +41,7 @@ $ConsumerPkgId   = 'AionInstructPreviewChat'
 $ConsumerVersion = '1.0.0.0'
 $WarPkgId        = 'Microsoft.WindowsAppRuntime.2'
 $War18PkgId      = 'Microsoft.WindowsAppRuntime.1.8'
-$War18MinVersion = '8000.859.21.0'
+$War18MinVersion = '8000.836.2153.0'
 
 function Write-Step  { param([string]$Msg) Write-Host "[bootstrap] $Msg" -ForegroundColor Cyan }
 function Write-OK    { param([string]$Msg) Write-Host "[bootstrap] $Msg" -ForegroundColor Green }

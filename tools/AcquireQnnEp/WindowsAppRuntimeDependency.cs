@@ -32,10 +32,12 @@ internal static class WindowsAppRuntimeDependency
             IntPtr packageFullName = IntPtr.Zero;
             try
             {
+                // Match the framework MSIX's WAR 1.8 GA floor; the ORT/QNN
+                // generation remains compatible across the 1.8 servicing line.
                 int hr = TryCreatePackageDependency(
                     IntPtr.Zero,
                     FamilyName,
-                    MakePackageVersion(8000, 859, 21, 0),
+                    MakePackageVersion(8000, 836, 2153, 0),
                     Arm64Architecture,
                     ProcessLifetime,
                     lifetimeArtifact: null,
@@ -85,7 +87,7 @@ internal static class WindowsAppRuntimeDependency
 
         throw new InvalidOperationException(
             $"{operation} failed with HRESULT 0x{hr:X8}. " +
-            "Verify that Windows App Runtime 1.8 version 8000.859.21.0 or newer is installed.",
+            "Verify that Windows App Runtime 1.8 version 8000.836.2153.0 or newer is installed.",
             Marshal.GetExceptionForHR(hr));
     }
 

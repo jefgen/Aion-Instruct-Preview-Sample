@@ -158,7 +158,7 @@ function Check-Package {
 
 Check-Package -Name 'Microsoft.AionInstructPreview.Framework.1.0' -Friendly 'Aion Instruct Preview framework MSIX'
 Check-Package -Name 'Microsoft.WindowsAppRuntime.2' -Friendly 'Windows App Runtime 2' -MinVersion '2.0.1.0'
-Check-Package -Name 'Microsoft.WindowsAppRuntime.1.8' -Friendly 'Windows App Runtime 1.8' -MinVersion '8000.859.21.0'
+Check-Package -Name 'Microsoft.WindowsAppRuntime.1.8' -Friendly 'Windows App Runtime 1.8' -MinVersion '8000.836.2153.0'
 if ($arch -eq 'ARM64') {
     Check-Package -Name 'MicrosoftCorporationII.WinML.Qualcomm.QNN.EP.1.8*' -Friendly 'Qualcomm QNN execution provider 1.8'
 }

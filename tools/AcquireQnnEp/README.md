@@ -8,7 +8,7 @@ download or prepare it when needed, and register it for the current process.
 
 - Windows 11 on an ARM64 Snapdragon device
 - .NET 9 SDK
-- Windows App Runtime 1.8 version `8000.859.21.0` or newer
+- Windows App Runtime 1.8 version `8000.836.2153.0` or newer
 - Network access when QNN components need to be downloaded or updated
 
 The project uses the public `Microsoft.WindowsAppSDK.ML` 1.8.2197 package,
@@ -17,6 +17,12 @@ with its matching `Microsoft.WindowsAppSDK.Runtime` 1.8.260508005 component
 set. The utility explicitly loads the installed Windows App Runtime 1.8 package
 before activating the Windows ML catalog; the Windows App SDK automatic
 bootstrap initializer is disabled.
+
+Runtime activation uses the `8000.836.2153.0` GA floor also required by
+`Microsoft.AionInstructPreview.Framework.1.0`. Although the build-time Runtime
+NuGet identifies its own AppX build as `8000.859.21.0`, the Aion Instruct SDK
+pins the GA floor because the ORT/QNN generation remains compatible within the
+Windows App Runtime 1.8 line.
 
 The project includes the NuGet.org v2 endpoint as a project-local fallback
 because these exact 1.8 packages are downloadable but are not currently visible
