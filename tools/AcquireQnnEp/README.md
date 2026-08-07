@@ -46,6 +46,12 @@ Acquisition is the default behavior. `EnsureReadyAsync()` is safe to call when
 QNN is already ready, so repeated runs do not require a separate readiness
 switch.
 
+During `TryRegister()`, the Windows ML stack can emit known cpuinfo and ONNX
+Runtime warnings directly to native stderr when an older cpuinfo build does not
+recognize a Snapdragon model string. The utility suppresses native stderr only
+for that registration call and restores it immediately afterward; acquisition
+and registration failures are still reported normally.
+
 Use `--help`, `-h`, or `/?` to print usage without loading the Windows ML
 catalog.
 

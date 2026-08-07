@@ -88,7 +88,13 @@ internal static class Program
         }
 
         Console.WriteLine("QNN provider is ready.");
-        if (!qnnProvider.TryRegister())
+        bool registered;
+        using (new NativeStderrFilter())
+        {
+            registered = qnnProvider.TryRegister();
+        }
+
+        if (!registered)
         {
             Console.Error.WriteLine("TryRegister failed for the QNN provider.");
             return ExitCode.RegistrationFailure;
