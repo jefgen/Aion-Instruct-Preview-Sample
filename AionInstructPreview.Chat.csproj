@@ -51,7 +51,11 @@
 
     <!-- Use the NuGet-delivered Windows metadata pack for CsWinRT projection generation. -->
     <WindowsSdkPackageVersion>10.0.26100.57</WindowsSdkPackageVersion>
-    <CsWinRTWindowsMetadata>$(NuGetPackageRoot)microsoft.windows.sdk.net.ref\$(WindowsSdkPackageVersion)\winmd</CsWinRTWindowsMetadata>
+    <!--
+      NuGetPackageRoot has no trailing slash when NUGET_PACKAGES is set without one, so keep
+      EnsureTrailingSlash rather than appending to $(NuGetPackageRoot) directly.
+    -->
+    <CsWinRTWindowsMetadata>$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))microsoft.windows.sdk.net.ref\$(WindowsSdkPackageVersion)\winmd</CsWinRTWindowsMetadata>
 
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
